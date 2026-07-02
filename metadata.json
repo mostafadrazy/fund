@@ -1,0 +1,6 @@
+{
+  "name": "xFund",
+  "description": "Islamic Impact Investing Redefined",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
