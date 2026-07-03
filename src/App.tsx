@@ -12,8 +12,8 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F5F5F5] font-sans selection:bg-black selection:text-white">
-      <div className="h-screen flex flex-col overflow-hidden relative">
+    <div className="flex flex-col min-h-screen bg-[#F5F5F5] font-sans selection:bg-mizan-green selection:text-white">
+      <div className="min-h-screen flex flex-col relative bg-white">
         <Navbar />
         <HeroSection />
       </div>

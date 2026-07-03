@@ -46,7 +46,7 @@ export default function CommunityFundSection() {
               <p>
                 We are building a fund that aims to invest and create avenues that free the community from Riba, breaking free from limited Halal options, and ending the forced choice between convenience and supporting Zionist stores.
               </p>
-              <p className="font-semibold text-black text-2xl mt-4">
+              <p className="font-semibold text-mizan-green text-2xl mt-4">
                 Our vision is self-sustainability.
               </p>
             </motion.div>

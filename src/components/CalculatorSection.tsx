@@ -21,7 +21,7 @@ export default function CalculatorSection() {
             transition={{ duration: 0.6 }}
             className="w-12 h-12 bg-white shadow-sm rounded-full flex items-center justify-center mb-6"
           >
-            <i className="fa-solid fa-calculator text-xl text-black"></i>
+            <i className="fa-solid fa-calculator text-xl text-mizan-green"></i>
           </motion.div>
           
           <div className="mb-6">
@@ -58,10 +58,10 @@ export default function CalculatorSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="space-y-8"
           >
-            <div className="bg-white p-6 rounded-2xl border border-gray-200/60 shadow-sm">
+            <div className="bg-white p-6 rounded-2xl shadow-md">
               <div className="flex justify-between mb-3">
                 <label className="font-semibold text-gray-700 text-sm uppercase tracking-wider">Initial Investment</label>
-                <span className="font-bold text-black text-lg">${amount.toLocaleString()}</span>
+                <span className="font-bold text-mizan-green text-lg">${amount.toLocaleString()}</span>
               </div>
               <input 
                 type="range" 
@@ -70,7 +70,7 @@ export default function CalculatorSection() {
                 step="1000"
                 value={amount} 
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full accent-black cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
+                className="w-full accent-mizan-green cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
               />
               <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
                 <span>$1,000</span>
@@ -79,10 +79,10 @@ export default function CalculatorSection() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-gray-200/60 shadow-sm">
+            <div className="bg-white p-6 rounded-2xl shadow-md">
               <div className="flex justify-between mb-3">
                 <label className="font-semibold text-gray-700 text-sm uppercase tracking-wider">Term (Years)</label>
-                <span className="font-bold text-black text-lg">{term} Years</span>
+                <span className="font-bold text-mizan-green text-lg">{term} Years</span>
               </div>
               <input 
                 type="range" 
@@ -90,7 +90,7 @@ export default function CalculatorSection() {
                 max="30" 
                 value={term} 
                 onChange={(e) => setTerm(Number(e.target.value))}
-                className="w-full accent-black cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
+                className="w-full accent-mizan-green cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
               />
               <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
                 <span>1 Year</span>
@@ -106,7 +106,7 @@ export default function CalculatorSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-black rounded-3xl p-10 md:p-12 hover:shadow-2xl hover:scale-[1.01] transition-all duration-500 shadow-md relative overflow-hidden"
+          className="bg-mizan-dark rounded-3xl p-10 md:p-12 hover:shadow-2xl hover:scale-[1.01] transition-all duration-500 shadow-md relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 p-8 opacity-[0.03] text-9xl text-white pointer-events-none">
             <i className="fa-solid fa-chart-line"></i>
@@ -146,7 +146,7 @@ export default function CalculatorSection() {
                   key={sadaqah}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-2xl font-medium text-white/80"
+                  className="text-2xl font-medium text-[#41c28c]"
                 >
                   ${Math.round(sadaqah).toLocaleString()}
                 </motion.p>
@@ -154,7 +154,7 @@ export default function CalculatorSection() {
             </div>
           </div>
           
-          <button className="w-full mt-10 bg-white text-black text-lg font-semibold py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">
+          <button className="w-full mt-10 bg-mizan-green text-white text-lg font-semibold py-4 rounded-xl hover:bg-mizan-green-hover transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">
             Start Investing
           </button>
         </motion.div>

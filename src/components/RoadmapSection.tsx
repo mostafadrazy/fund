@@ -78,11 +78,11 @@ export default function RoadmapSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="group inline-flex items-center gap-3 bg-black text-white text-base font-medium pl-6 pr-1.5 py-1.5 rounded-full hover:bg-gray-800 transition-all duration-300 hover:scale-105 active:scale-95 whitespace-nowrap shadow-md"
+            className="group inline-flex items-center gap-3 bg-mizan-green text-white text-base font-medium pl-6 pr-1.5 py-1.5 rounded-full hover:bg-mizan-green-hover transition-all duration-300 hover:scale-105 active:scale-95 whitespace-nowrap shadow-md"
           >
             Read Whitepaper
             <span className="bg-white rounded-full p-1.5 transition-transform duration-300 group-hover:translate-x-1 flex items-center justify-center w-7 h-7">
-              <i className="fa-solid fa-arrow-right text-black text-xs"></i>
+              <i className="fa-solid fa-arrow-right text-mizan-green text-xs"></i>
             </span>
           </motion.button>
         </div>
@@ -104,18 +104,18 @@ export default function RoadmapSection() {
                   className={`relative flex flex-col md:flex-row items-start md:items-center ${isEven ? 'md:flex-row-reverse' : ''}`}
                 >
                   {/* Timeline Node */}
-                  <div className="absolute left-8 md:left-1/2 w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center transform -translate-x-1/2 z-10 transition-transform duration-300 hover:scale-110">
-                    <i className={`${step.icon} text-lg text-black`}></i>
+                  <div className="absolute left-8 md:left-1/2 w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center transform -translate-x-1/2 z-10 transition-transform duration-300 hover:scale-110">
+                    <i className={`${step.icon} text-lg text-mizan-green`}></i>
                   </div>
 
                   {/* Content Container */}
                   <div className={`ml-20 md:ml-0 w-full md:w-1/2 ${isEven ? 'md:pr-16 md:text-right' : 'md:pl-16 md:text-left'}`}>
-                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+                    <div className="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-6 opacity-[0.03] transition-transform duration-700 group-hover:scale-150 group-hover:-rotate-12 pointer-events-none text-9xl">
                         <i className={step.icon}></i>
                       </div>
                       
-                      <span className="text-black/20 text-5xl font-black tracking-tighter mb-4 block group-hover:text-black/30 transition-colors duration-300">
+                      <span className="text-black/20 text-5xl font-black tracking-tighter mb-4 block group-hover:text-mizan-green/20 transition-colors duration-300">
                         0{idx + 1}
                       </span>
                       <h3 className="text-2xl font-medium mb-3 text-black">

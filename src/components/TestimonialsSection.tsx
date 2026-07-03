@@ -5,7 +5,7 @@ import { VerticalCutReveal } from './ui/vertical-cut-reveal';
 const testimonials = [
   {
     image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3',
-    text: 'Growing my wealth while completely avoiding Riba was always a challenge until I found xFund. Their transparency and real estate results are unmatched.',
+    text: 'Growing my wealth while completely avoiding Riba was always a challenge until I found Mizan Cap. Their transparency and real estate results are unmatched.',
     name: 'Alice Johnson',
     username: '@alicejohnson',
     socialIcon: 'fa-brands fa-x-twitter'
@@ -19,7 +19,7 @@ const testimonials = [
   },
   {
     image: 'https://i.imgur.com/kaDy9hV.jpeg',
-    text: 'Seeing a portion of our profits directly support Muslim-owned local businesses shows how xFund puts community first. It is real, tangible economic empowerment.',
+    text: 'Seeing a portion of our profits directly support Muslim-owned local businesses shows how Mizan Cap puts community first. It is real, tangible economic empowerment.',
     name: 'Emma Brown',
     username: '@emmabrown',
     socialIcon: 'fa-brands fa-instagram'
@@ -33,7 +33,7 @@ const testimonials = [
   },
   {
     image: 'https://i.imgur.com/TQIqsob.png',
-    text: 'xFund bridges the gap between commercial viability and spiritual alignment. It is more than a fund; it is a vital community institution.',
+    text: 'Mizan Cap bridges the gap between commercial viability and spiritual alignment. It is more than a fund; it is a vital community institution.',
     name: 'Sophia Lee',
     username: '@sophialee',
     socialIcon: 'fa-brands fa-linkedin'
@@ -61,14 +61,14 @@ const testimonials = [
   },
   {
     image: 'https://i.imgur.com/bG88vHI.png',
-    text: 'xFund sets a new standard for modern Islamic finance. The direct link to local business reinvestment makes it a self-sustaining cycle of wealth.',
+    text: 'Mizan Cap sets a new standard for modern Islamic finance. The direct link to local business reinvestment makes it a self-sustaining cycle of wealth.',
     name: 'Sarah Taylor',
     username: '@sarahtaylor',
     socialIcon: 'fa-brands fa-x-twitter'
   },
   {
     image: 'https://i.imgur.com/tjmS77j.png',
-    text: 'Transparent operations, strict Shariah principles, and strong portfolio growth. I highly recommend xFund to anyone looking to invest ethically.',
+    text: 'Transparent operations, strict Shariah principles, and strong portfolio growth. I highly recommend Mizan Cap to anyone looking to invest ethically.',
     name: 'Kevin White',
     username: '@kevinwhite',
     socialIcon: 'fa-brands fa-linkedin'
@@ -91,7 +91,7 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="bg-white px-6 py-24 overflow-hidden border-t border-gray-100">
+    <section id="testimonials" className="bg-white px-6 py-24 overflow-hidden">
       <div className="max-w-[88rem] mx-auto">
         
         {/* Header Section */}
@@ -132,7 +132,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-              className="bg-[#F5F5F5] rounded-3xl p-8 border border-gray-100 flex flex-col justify-between hover:bg-black hover:text-white hover:border-black transition-all duration-300 hover:-translate-y-2 group cursor-pointer shadow-sm hover:shadow-xl"
+              className="bg-[#F5F5F5] rounded-3xl p-8 flex flex-col justify-between hover:bg-mizan-green hover:text-white transition-all duration-300 hover:-translate-y-2 group cursor-pointer shadow-sm hover:shadow-xl"
             >
               <div>
                 {/* Quotation Icon decoration */}
@@ -144,12 +144,12 @@ export default function TestimonialsSection() {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between border-t border-black/5 group-hover:border-white/10 pt-6 transition-colors">
+              <div className="flex items-center justify-between pt-6 border-t border-transparent group-hover:border-transparent transition-colors">
                 <div className="flex items-center gap-4">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover border border-white/20"
+                    className="w-12 h-12 rounded-full object-cover"
                     referrerPolicy="no-referrer"
                   />
                   <div>

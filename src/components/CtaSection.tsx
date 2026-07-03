@@ -31,18 +31,18 @@ export default function CtaSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-white/70 text-lg md:text-xl max-w-xl mb-10"
         >
-          Join xFund today and become part of a community-driven movement redefining Islamic impact investing.
+          Join Mizan Cap today and become part of a community-driven movement redefining Islamic impact investing.
         </motion.p>
         <motion.button 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="group inline-flex items-center gap-3 bg-white text-black text-lg font-medium px-8 py-4 rounded-full hover:bg-zinc-100 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+          className="group inline-flex items-center gap-3 bg-white text-mizan-green text-lg font-semibold px-8 py-4 rounded-full hover:bg-zinc-100 transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
         >
           Start Your Journey
-          <span className="bg-black rounded-full p-2 transition-transform duration-300 group-hover:translate-x-1 flex items-center justify-center w-8 h-8">
-            <i className="fa-solid fa-arrow-right text-white text-sm"></i>
+          <span className="bg-mizan-green text-white rounded-full p-2 transition-transform duration-300 group-hover:translate-x-1 flex items-center justify-center w-8 h-8">
+            <i className="fa-solid fa-arrow-right text-sm"></i>
           </span>
         </motion.button>
       </div>

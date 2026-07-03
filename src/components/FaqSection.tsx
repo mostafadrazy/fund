@@ -4,12 +4,12 @@ import { VerticalCutReveal } from './ui/vertical-cut-reveal';
 
 const faqs = [
   {
-    question: "What is xFund and how does it work?",
-    answer: "xFund is a community-driven investment platform focused on generating Halal returns through real estate and reinvesting in local Muslim-owned businesses. We pool community resources to build self-sustaining economic infrastructure."
+    question: "What is Mizan Cap and how does it work?",
+    answer: "Mizan Cap is a community-driven investment platform focused on generating Halal returns through real estate and reinvesting in local Muslim-owned businesses. We pool community resources to build self-sustaining economic infrastructure."
   },
   {
     question: "How is this different from a traditional investment fund?",
-    answer: "Unlike traditional funds, xFund is 100% Halal and free from Riba (interest). Furthermore, a portion of all profits generated is directed towards Sadaqah Jariyah—continuous charity that benefits the community by funding local businesses and infrastructure."
+    answer: "Unlike traditional funds, Mizan Cap is 100% Halal and free from Riba (interest). Furthermore, a portion of all profits generated is directed towards Sadaqah Jariyah—continuous charity that benefits the community by funding local businesses and infrastructure."
   },
   {
     question: "What is the minimum investment required?",
@@ -65,14 +65,14 @@ export default function FaqSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="w-full text-left px-8 py-6 flex items-center justify-between focus:outline-none"
                 >
                   <span className="text-xl font-medium text-black pr-8">{faq.question}</span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? 'bg-black text-white' : 'bg-[#F5F5F5] text-black'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? 'bg-mizan-green text-white' : 'bg-[#F5F5F5] text-black'}`}>
                     <i className={`fa-solid fa-chevron-down transition-transform duration-300 text-sm ${isOpen ? 'rotate-180' : ''}`}></i>
                   </div>
                 </button>
@@ -84,7 +84,7 @@ export default function FaqSection() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <div className="px-8 pb-6 text-gray-600 text-lg leading-relaxed border-t border-gray-50 pt-4">
+                      <div className="px-8 pb-6 text-gray-600 text-lg leading-relaxed pt-2">
                         {faq.answer}
                       </div>
                     </motion.div>

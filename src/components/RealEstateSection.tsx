@@ -23,10 +23,10 @@ export default function RealEstateSection() {
                 {"Where We Are:\nReal Estate."}
               </VerticalCutReveal>
             </div>
-            <button className="group inline-flex items-center gap-3 bg-black text-white text-base font-medium pl-6 pr-1.5 py-1.5 rounded-full hover:bg-gray-800 transition-all duration-300 hover:scale-105 active:scale-95">
+            <button className="group inline-flex items-center gap-3 bg-mizan-green text-white text-base font-medium pl-6 pr-1.5 py-1.5 rounded-full hover:bg-mizan-green-hover transition-all duration-300 hover:scale-105 active:scale-95">
               View Portfolio
               <span className="bg-white rounded-full p-1.5 transition-transform duration-300 group-hover:translate-x-1 flex items-center justify-center w-7 h-7">
-                <i className="fa-solid fa-arrow-right text-black text-xs"></i>
+                <i className="fa-solid fa-arrow-right text-mizan-green text-xs"></i>
               </span>
             </button>
           </div>
@@ -65,17 +65,17 @@ export default function RealEstateSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="group bg-black rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-1.5 hover:bg-zinc-900 transition-all duration-300 hover:shadow-xl cursor-default border border-white/5"
+            className="group bg-mizan-dark rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-2 hover:bg-mizan-green transition-all duration-300 hover:shadow-xl cursor-pointer"
           >
             <div className="flex justify-between items-start">
-              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase">Pillar 01</span>
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-transform duration-300 group-hover:rotate-12">
+              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase group-hover:text-white/45 transition-colors">Pillar 01</span>
+              <div className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center text-white group-hover:text-mizan-green transition-all duration-300 group-hover:rotate-12">
                 <i className="fa-solid fa-hand-holding-heart text-base"></i>
               </div>
             </div>
             <div>
               <h3 className="text-white text-3xl font-medium leading-tight mb-3">Sadaqah<br/>Jariyah</h3>
-              <p className="text-white/60 text-base group-hover:text-white/80 transition-colors leading-relaxed">Continuous charity that benefits you in this life and the next through community reinvestment.</p>
+              <p className="text-white/60 text-base group-hover:text-white/90 transition-colors leading-relaxed">Continuous charity that benefits you in this life and the next through community reinvestment.</p>
             </div>
           </motion.div>
 
@@ -84,17 +84,17 @@ export default function RealEstateSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="group bg-black rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-1.5 hover:bg-zinc-900 transition-all duration-300 hover:shadow-xl cursor-default border border-white/5"
+            className="group bg-mizan-dark rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-2 hover:bg-mizan-green transition-all duration-300 hover:shadow-xl cursor-pointer"
           >
             <div className="flex justify-between items-start">
-              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase">Pillar 02</span>
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-transform duration-300 group-hover:rotate-12">
+              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase group-hover:text-white/45 transition-colors">Pillar 02</span>
+              <div className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center text-white group-hover:text-mizan-green transition-all duration-300 group-hover:rotate-12">
                 <i className="fa-solid fa-star-and-crescent text-base"></i>
               </div>
             </div>
             <div>
               <h3 className="text-white text-3xl font-medium leading-tight mb-3">100%<br/>Halal</h3>
-              <p className="text-white/60 text-base group-hover:text-white/80 transition-colors leading-relaxed">Free from Riba, fully compliant with Islamic principles and ethical investment guidelines.</p>
+              <p className="text-white/60 text-base group-hover:text-white/90 transition-colors leading-relaxed">Free from Riba, fully compliant with Islamic principles and ethical investment guidelines.</p>
             </div>
           </motion.div>
         </div>
