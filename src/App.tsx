@@ -2,29 +2,31 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import RealEstateSection from './components/RealEstateSection';
-import CalculatorSection from './components/CalculatorSection';
 import CommunityFundSection from './components/CommunityFundSection';
 import RoadmapSection from './components/RoadmapSection';
 import TestimonialsSection from './components/TestimonialsSection';
+import WhyAndImpactSection from './components/WhyAndImpactSection';
+import ImpactCycleSection from './components/ImpactCycleSection';
+import CalculatorSection from './components/CalculatorSection';
+import AppSection from './components/AppSection';
 import CtaSection from './components/CtaSection';
-import FaqSection from './components/FaqSection';
 import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F5F5F5] font-sans selection:bg-mizan-green selection:text-white">
-      <div className="min-h-screen flex flex-col relative bg-white">
-        <Navbar />
-        <HeroSection />
-      </div>
+    <div className="flex flex-col min-h-screen bg-[var(--color-mizan-bg)] font-sans selection:bg-[#C8A97E] selection:text-[#FAFAF8] text-[var(--color-mizan-dark)]">
+      <Navbar />
       <main className="flex-1">
+        <HeroSection />
         <RealEstateSection />
-        <CalculatorSection />
         <CommunityFundSection />
         <RoadmapSection />
         <TestimonialsSection />
+        <ImpactCycleSection />
+        <CalculatorSection />
+        <AppSection />
+        <WhyAndImpactSection />
         <CtaSection />
-        <FaqSection />
       </main>
       <Footer />
     </div>

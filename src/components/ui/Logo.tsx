@@ -8,7 +8,8 @@ interface LogoProps {
 }
 
 export default function Logo({ className = '', iconOnly = false, height = 36, light = false }: LogoProps) {
-  const darkClass = light ? 'text-white' : 'text-mizan-dark';
+  const darkClass = light ? 'text-white' : 'text-[var(--color-mizan-dark)]';
+  const greenClass = 'text-[var(--color-mizan-gold)]';
 
   if (iconOnly) {
     return (
@@ -27,10 +28,10 @@ export default function Logo({ className = '', iconOnly = false, height = 36, li
           <polygon fill="currentColor" stroke="none" className={darkClass} points="66.87 163.38 24.94 163.45 0 140.35 91.44 140.25 66.87 163.38"/>
           <polygon fill="currentColor" stroke="none" className={darkClass} points="257.23 163.27 215.55 163.54 191.08 140.33 281.3 140.26 257.23 163.27"/>
           <g stroke="none">
-            {/* cls-2 elements (mizan green) */}
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="58.95 74.56 52.77 69.68 35.45 125.48 34.86 18.9 136.06 104.6 135.99 140.07 58.95 74.56"/>
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="229.3 69.53 146.5 140.56 146.39 104.78 246.91 19.26 246.69 124.74 229.3 69.53"/>
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="141.37 60.35 111.92 30.46 141.22 0 169.97 30.49 141.37 60.35"/>
+            {/* cls-2 elements (mizan green / lime) */}
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="58.95 74.56 52.77 69.68 35.45 125.48 34.86 18.9 136.06 104.6 135.99 140.07 58.95 74.56"/>
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="229.3 69.53 146.5 140.56 146.39 104.78 246.91 19.26 246.69 124.74 229.3 69.53"/>
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="141.37 60.35 111.92 30.46 141.22 0 169.97 30.49 141.37 60.35"/>
             {/* cls-1 element */}
             <polygon fill="currentColor" stroke="none" className={darkClass} points="177.69 191.51 104.67 191.47 141.17 152.82 177.69 191.51"/>
           </g>
@@ -56,9 +57,9 @@ export default function Logo({ className = '', iconOnly = false, height = 36, li
           <polygon fill="currentColor" stroke="none" className={darkClass} points="66.87 163.38 24.94 163.45 0 140.35 91.44 140.25 66.87 163.38"/>
           <polygon fill="currentColor" stroke="none" className={darkClass} points="257.23 163.27 215.55 163.54 191.08 140.33 281.3 140.26 257.23 163.27"/>
           <g stroke="none">
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="58.95 74.56 52.77 69.68 35.45 125.48 34.86 18.9 136.06 104.6 135.99 140.07 58.95 74.56"/>
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="229.3 69.53 146.5 140.56 146.39 104.78 246.91 19.26 246.69 124.74 229.3 69.53"/>
-            <polygon fill="currentColor" stroke="none" className="text-mizan-green" points="141.37 60.35 111.92 30.46 141.22 0 169.97 30.49 141.37 60.35"/>
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="58.95 74.56 52.77 69.68 35.45 125.48 34.86 18.9 136.06 104.6 135.99 140.07 58.95 74.56"/>
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="229.3 69.53 146.5 140.56 146.39 104.78 246.91 19.26 246.69 124.74 229.3 69.53"/>
+            <polygon fill="currentColor" stroke="none" className={greenClass} points="141.37 60.35 111.92 30.46 141.22 0 169.97 30.49 141.37 60.35"/>
             <polygon fill="currentColor" stroke="none" className={darkClass} points="177.69 191.51 104.67 191.47 141.17 152.82 177.69 191.51"/>
           </g>
         </g>
@@ -74,9 +75,9 @@ export default function Logo({ className = '', iconOnly = false, height = 36, li
           </g>
           {/* Text part "cap" (cls-2) */}
           <g stroke="none">
-            <path fill="currentColor" stroke="none" className="text-mizan-green" d="M814.7,147.77c11.56.15,21.22-3.76,28.98-12.22l11.89,11.72c-9.33,11.21-22.17,16.3-36.49,17.35-27.21,1.99-51.87-16.4-56.37-43.6-3.63-21.92,5.32-43.37,24.01-55.42,15.08-9.72,33.65-10.14,50.33-4.2,6.92,3.16,12.36,7.12,18.13,12.98l-11.25,12.07c-13.63-14.34-36.02-16.73-51.45-4.09-11.79,9.65-15.7,25.6-11.63,39.98,4.3,15.2,17.61,25.23,33.86,25.44Z"/>
-            <path fill="currentColor" stroke="none" className="text-mizan-green" d="M969.15,191.51l-16.35.12-.03-102.5,16.23.06.5,9.55c7.09-8.52,16.54-12.32,27.65-10.96,18.1,2.22,30.2,18.15,30.85,36.36.56,15.73-6.64,30.75-21.21,37.34-12.86,5.82-28.11,3.49-37.62-7.81l-.02,37.85ZM1012,126.09c0-12.09-9.8-21.88-21.88-21.88s-21.88,9.8-21.88,21.88,9.8,21.88,21.88,21.88,21.88-9.8,21.88-21.88Z"/>
-            <path fill="currentColor" stroke="none" className="text-mizan-green" d="M920.72,162.75l-.37-9.01c-3.36,2.96-5.83,6.1-9.55,7.84-13.49,6.29-29.6,2.69-39.25-8.8-12.74-15.15-12.72-37.45-.56-52.78,7.49-9.44,18.37-13.49,30.19-12.31,7.9.78,13.53,4.9,19.07,10.88l.5-9.41,16.2-.02.09,73.53-16.31.07ZM921.5,126.16c0-11.98-9.71-21.7-21.7-21.7s-21.7,9.71-21.7,21.7,9.71,21.7,21.7,21.7,21.7-9.71,21.7-21.7Z"/>
+            <path fill="currentColor" stroke="none" className={greenClass} d="M814.7,147.77c11.56.15,21.22-3.76,28.98-12.22l11.89,11.72c-9.33,11.21-22.17,16.3-36.49,17.35-27.21,1.99-51.87-16.4-56.37-43.6-3.63-21.92,5.32-43.37,24.01-55.42,15.08-9.72,33.65-10.14,50.33-4.2,6.92,3.16,12.36,7.12,18.13,12.98l-11.25,12.07c-13.63-14.34-36.02-16.73-51.45-4.09-11.79,9.65-15.7,25.6-11.63,39.98,4.3,15.2,17.61,25.23,33.86,25.44Z"/>
+            <path fill="currentColor" stroke="none" className={greenClass} d="M969.15,191.51l-16.35.12-.03-102.5,16.23.06.5,9.55c7.09-8.52,16.54-12.32,27.65-10.96,18.1,2.22,30.2,18.15,30.85,36.36.56,15.73-6.64,30.75-21.21,37.34-12.86,5.82-28.11,3.49-37.62-7.81l-.02,37.85ZM1012,126.09c0-12.09-9.8-21.88-21.88-21.88s-21.88,9.8-21.88,21.88,9.8,21.88,21.88,21.88,21.88-9.8,21.88-21.88Z"/>
+            <path fill="currentColor" stroke="none" className={greenClass} d="M920.72,162.75l-.37-9.01c-3.36,2.96-5.83,6.1-9.55,7.84-13.49,6.29-29.6,2.69-39.25-8.8-12.74-15.15-12.72-37.45-.56-52.78,7.49-9.44,18.37-13.49,30.19-12.31,7.9.78,13.53,4.9,19.07,10.88l.5-9.41,16.2-.02.09,73.53-16.31.07ZM921.5,126.16c0-11.98-9.71-21.7-21.7-21.7s-21.7,9.71-21.7,21.7,9.71,21.7,21.7,21.7,21.7-9.71,21.7-21.7Z"/>
           </g>
         </g>
       </g>

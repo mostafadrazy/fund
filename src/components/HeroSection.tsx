@@ -1,129 +1,80 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { VerticalCutReveal } from './ui/vertical-cut-reveal';
 
 export default function HeroSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } }
-  };
-
-  const buttonVariants = {
-    hidden: { scale: 0.9, opacity: 0, y: 15 },
-    visible: { 
-      scale: 1, 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        type: "spring",
-        stiffness: 200,
-        damping: 18,
-        delay: 0.6
-      } 
-    }
-  };
-
   return (
-    <section id="vision" className="relative w-full min-h-screen flex-1 flex flex-col overflow-hidden group bg-white">
-      <img 
-        alt="Hero Background"
-        className="object-cover absolute inset-0 w-full h-full transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
-        src="https://res.cloudinary.com/dmnqlruhl/image/upload/v1783027206/ChatGPT_Image_Jul_2_2026_10_19_54_PM_pedcje.png"
-      />
-      
-      {/* Elegant white gradient overlay from left to right, fading quickly to let the image shine */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent z-0"></div>
-      <div className="absolute inset-0 bg-white/5 mix-blend-overlay z-0"></div>
-      
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 w-full max-w-[88rem] mx-auto px-6 md:px-12 flex-1 flex flex-col justify-center py-16 pt-32 md:pt-40"
-      >
-        <div className="flex flex-col items-start max-w-3xl">
-          <div className="mb-6 flex flex-col gap-1 md:gap-2">
-            <VerticalCutReveal
-              splitBy="characters"
-              staggerDuration={0.012}
-              staggerFrom="first"
-              transition={{
-                type: "spring",
-                stiffness: 220,
-                damping: 24,
-              }}
-              containerClassName="text-mizan-dark text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight md:leading-none tracking-tight"
-              wordLevelClassName="pb-1"
-            >
-              {"Islamic Impact"}
-            </VerticalCutReveal>
-            <VerticalCutReveal
-              splitBy="characters"
-              staggerDuration={0.012}
-              staggerFrom="first"
-              transition={{
-                type: "spring",
-                stiffness: 220,
-                damping: 24,
-                delay: 0.15
-              }}
-              containerClassName="text-mizan-green text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight md:leading-none tracking-tight"
-              wordLevelClassName="pb-1"
-            >
-              {"Investing Redefined"}
-            </VerticalCutReveal>
-          </div>
+    <section id="hero" className="relative w-full pt-40 pb-48 md:pt-48 md:pb-64 overflow-hidden bg-[var(--color-mizan-bg)]">
+      {/* Background Image on Right */}
+      <div className="absolute top-0 right-0 w-full md:w-[65%] h-full z-0 overflow-hidden">
+        <motion.img 
+          initial={{ scale: 1 }}
+          animate={{ scale: 1.05 }}
+          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+          src="https://res.cloudinary.com/dmnqlruhl/image/upload/v1785697027/Extract_background_image_high_qu__202608021956_urgqox.jpg" 
+          alt="Islamic Architecture" 
+          className="w-full h-full object-cover object-right"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-mizan-bg)] via-[var(--color-mizan-bg)]/70 to-transparent"></div>
+        {/* Subtle white/beige overlay from bottom to blend if needed, but side gradient is main */}
+      </div>
+
+      {/* Solid background on the left for text readability */}
+      <div className="absolute top-0 left-0 w-full md:w-[45%] h-full bg-[var(--color-mizan-bg)] z-0 hidden md:block"></div>
+
+      <div className="max-w-[84rem] mx-auto px-6 relative z-10">
+        <div className="max-w-xl lg:max-w-2xl">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[var(--color-mizan-dark)] text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] tracking-tight mb-6"
+          >
+            Islamic Impact<br />
+            Investment Redefined
+          </motion.h1>
           
           <motion.p 
-            variants={itemVariants} 
-            className="text-gray-700/90 text-base sm:text-lg md:text-xl max-w-xl mb-8 md:mb-10 leading-relaxed font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1  }}
+            className="text-gray-700 text-base md:text-lg font-medium leading-relaxed max-w-[540px] mb-10"
           >
-            Grow your wealth free from Riba. Invest in institutional real estate and community development funds designed to provide a lifetime of Sadaqah Jariyah.
+            We use asset-backed real estate to secure your investments, channeling profits into local halal businesses and nonprofits. Generate strong returns while building a lifetime of Sadaqah Jariyah.
           </motion.p>
-          
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 md:gap-10 w-full">
-            <motion.button 
-              variants={buttonVariants}
-              whileHover={{ 
-                scale: 1.03,
-                y: -2,
-                boxShadow: "0 12px 30px -10px rgba(7, 104, 65, 0.4)",
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="group/btn inline-flex items-center gap-4 bg-mizan-green text-white text-base md:text-lg font-semibold pl-8 pr-2.5 py-2.5 rounded-full transition-all duration-300 hover:bg-mizan-green-hover shadow-lg cursor-pointer shrink-0"
-            >
-              See Our Vision
-              <span className="bg-white rounded-full p-2 flex items-center justify-center w-8 h-8 shrink-0 transition-transform duration-300 group-hover/btn:translate-x-1">
-                <i className="fa-solid fa-arrow-right text-mizan-green text-sm"></i>
-              </span>
-            </motion.button>
 
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center gap-4 bg-white/80 backdrop-blur-md px-5 py-3 rounded-2xl border border-gray-100 shadow-sm"
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2  }}
+            className="flex flex-col sm:flex-row items-center gap-4"
+          >
+            <a 
+              href="#calculator"
+              className="w-full sm:w-auto bg-[var(--color-mizan-dark)] text-white text-sm font-bold tracking-wide px-8 py-4 rounded hover:bg-[#1a251c] hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-center"
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-mizan-green/10 text-mizan-green shrink-0">
-                <i className="fa-solid fa-circle-check text-base"></i>
-              </div>
-              <div className="text-left">
-                <div className="text-mizan-dark text-sm font-bold tracking-tight">1,200+ Active Members</div>
-                <div className="text-[11px] text-gray-500 font-medium flex items-center gap-1.5">
-                  <span>Audited Shariah Compliance</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-mizan-green animate-pulse"></span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+              Invest With Purpose
+            </a>
+            <a 
+              href="#road-map"
+              className="w-full sm:w-auto bg-transparent border border-gray-400 text-gray-700 text-sm font-bold tracking-wide px-6 py-4 rounded hover:bg-white hover:border-transparent hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-center flex items-center justify-center gap-2"
+            >
+              <i className="fa-regular fa-circle-play text-gray-500"></i> Watch Our Approach
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3  }}
+            className="mt-8 flex items-center gap-3 text-sm font-medium text-gray-700"
+          >
+            <i className="fa-solid fa-shield text-[var(--color-mizan-gold)] text-base"></i>
+            <span>Shariah Compliant. Community Focused. Lasting Impact.</span>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
+
+

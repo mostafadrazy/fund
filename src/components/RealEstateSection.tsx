@@ -1,102 +1,54 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { VerticalCutReveal } from './ui/vertical-cut-reveal';
 
 export default function RealEstateSection() {
+  const features = [
+    {
+      title: "SHARIA COMPLIANT",
+      description: "All investments screened and approved by our Sharia Advisory Board.",
+      icon: "fa-clipboard-check"
+    },
+    {
+      title: "ASSET BACKED",
+      description: "Every investment is backed by real, productive assets and cash flow.",
+      icon: "fa-building-columns"
+    },
+    {
+      title: "COMMUNITY FOCUSED",
+      description: "Profits are reinvested into vital opportunities and strengthened communities.",
+      icon: "fa-users"
+    },
+    {
+      title: "TRANSPARENT REPORTING",
+      description: "Clear, regular updates and full transparency with our investors.",
+      icon: "fa-file-invoice"
+    }
+  ];
+
   return (
-    <section id="real-estate" className="bg-[#F5F5F5] px-6 py-24 overflow-hidden">
-      <div className="max-w-[88rem] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 items-start">
-          <div>
-            <div className="mb-8">
-              <VerticalCutReveal
-                splitBy="lines"
-                staggerDuration={0.1}
-                staggerFrom="first"
-                transition={{
-                  type: "spring",
-                  stiffness: 180,
-                  damping: 22,
-                }}
-                containerClassName="text-black text-4xl md:text-6xl font-medium leading-none tracking-tight"
-              >
-                {"Where We Are:\nReal Estate."}
-              </VerticalCutReveal>
-            </div>
-            <button className="group inline-flex items-center gap-3 bg-mizan-green text-white text-base font-medium pl-6 pr-1.5 py-1.5 rounded-full hover:bg-mizan-green-hover transition-all duration-300 hover:scale-105 active:scale-95">
-              View Portfolio
-              <span className="bg-white rounded-full p-1.5 transition-transform duration-300 group-hover:translate-x-1 flex items-center justify-center w-7 h-7">
-                <i className="fa-solid fa-arrow-right text-mizan-green text-xs"></i>
-              </span>
-            </button>
-          </div>
-          <div>
-            <motion.p 
+    <section className="relative z-20 -mt-24 md:-mt-32 max-w-[84rem] mx-auto px-6">
+      <div className="bg-white rounded-[24px] shadow-2xl p-6 md:p-10 border border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200/60">
+          {features.map((feature, idx) => (
+            <motion.div 
+              key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="text-black/70 text-2xl md:text-3xl leading-relaxed"
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.08  }}
+              className="flex flex-col items-center text-center p-6 relative group hover:-translate-y-1 transition-transform duration-300"
             >
-              With real estate we were able to grow our initial investment of <strong className="text-black font-semibold">$50,000</strong> into a <strong className="text-black font-semibold">$1,300,000</strong> dollar portfolio in under 3 years. Compounding investments like this allow us to create community funds while providing a lifetime of <strong className="text-black font-semibold">Sadaqah Jariyah</strong> for that investor.
-            </motion.p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="group col-span-1 lg:col-span-2 rounded-2xl overflow-hidden relative min-h-80 bg-gray-200 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500"
-          >
-            <div className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-105" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200)', backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-black/5"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-            <div className="relative z-10 p-8 h-full flex flex-col justify-end transition-transform duration-500 group-hover:-translate-y-1">
-              <h3 className="text-white text-3xl font-semibold leading-snug mb-2" style={{ letterSpacing: '-0.02em' }}>Exponential Growth</h3>
-              <p className="text-white/90 text-lg font-medium max-w-sm">From $50k to $1.3M in under 3 years through strategic, principled acquisitions.</p>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="group bg-mizan-dark rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-2 hover:bg-mizan-green transition-all duration-300 hover:shadow-xl cursor-pointer"
-          >
-            <div className="flex justify-between items-start">
-              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase group-hover:text-white/45 transition-colors">Pillar 01</span>
-              <div className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center text-white group-hover:text-mizan-green transition-all duration-300 group-hover:rotate-12">
-                <i className="fa-solid fa-hand-holding-heart text-base"></i>
+              <div className="w-16 h-16 mb-4 flex items-center justify-center text-[var(--color-mizan-dark)] transition-colors">
+                <i className={`fa-solid ${feature.icon} text-4xl group-hover:scale-110 transition-transform duration-300`}></i>
               </div>
-            </div>
-            <div>
-              <h3 className="text-white text-3xl font-medium leading-tight mb-3">Sadaqah<br/>Jariyah</h3>
-              <p className="text-white/60 text-base group-hover:text-white/90 transition-colors leading-relaxed">Continuous charity that benefits you in this life and the next through community reinvestment.</p>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="group bg-mizan-dark rounded-2xl p-8 min-h-80 flex flex-col justify-between hover:-translate-y-2 hover:bg-mizan-green transition-all duration-300 hover:shadow-xl cursor-pointer"
-          >
-            <div className="flex justify-between items-start">
-              <span className="text-white/20 text-sm font-semibold tracking-widest uppercase group-hover:text-white/45 transition-colors">Pillar 02</span>
-              <div className="w-10 h-10 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center text-white group-hover:text-mizan-green transition-all duration-300 group-hover:rotate-12">
-                <i className="fa-solid fa-star-and-crescent text-base"></i>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-white text-3xl font-medium leading-tight mb-3">100%<br/>Halal</h3>
-              <p className="text-white/60 text-base group-hover:text-white/90 transition-colors leading-relaxed">Free from Riba, fully compliant with Islamic principles and ethical investment guidelines.</p>
-            </div>
-          </motion.div>
+              <h3 className="text-[var(--color-mizan-dark)] font-bold text-sm tracking-widest uppercase mb-3 font-sans">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed max-w-[220px]">
+                {feature.description}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

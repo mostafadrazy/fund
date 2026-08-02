@@ -1,163 +1,240 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { VerticalCutReveal } from './ui/vertical-cut-reveal';
+import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer, CartesianGrid, YAxis } from 'recharts';
 
 export default function CalculatorSection() {
-  const [amount, setAmount] = useState<number>(10000);
-  const [term, setTerm] = useState<number>(5);
+  const [amount, setAmount] = useState(50000);
+  const [horizonYears, setHorizonYears] = useState(10);
 
-  const totalReturn = amount * Math.pow(1.12, term); // Assuming 12% annual return
-  const profit = totalReturn - amount;
-  const sadaqah = profit * 0.1; // 10% of profit to Sadaqah
+  const calculateGrowth = (principal: number, years: number) => {
+    let current = principal;
+    const data = [];
+    let cumulativeSadaqah = 0;
+    
+    // Using 12% target yield, with 30% of that yield going to community impact
+    const grossYield = 0.12; 
+    const communityShare = 0.30;
+    
+    for (let i = 0; i <= years; i++) {
+      if (i === 0) {
+        data.push({ 
+          year: i, 
+          yearLabel: `Year ${i}`,
+          investmentGrowth: current, 
+          sadaqahJariyah: 0,
+          totalReturn: current 
+        });
+        continue;
+      }
+      
+      const yearlyReturn = current * grossYield;
+      const sadaqahPortion = yearlyReturn * communityShare;
+      const investorPortion = yearlyReturn - sadaqahPortion;
+      
+      cumulativeSadaqah += sadaqahPortion;
+      current += investorPortion; // Reinvesting investor portion
+      
+      data.push({
+        year: i,
+        yearLabel: `Year ${i}`,
+        investmentGrowth: Math.round(current),
+        sadaqahJariyah: Math.round(cumulativeSadaqah),
+        totalReturn: Math.round(current + cumulativeSadaqah)
+      });
+    }
+    return data;
+  };
+
+  const chartData = calculateGrowth(amount, horizonYears);
+  const yearData = chartData[chartData.length - 1];
+
+  const formatCurrency = (val: number) => 
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const inv = payload.find((p: any) => p.dataKey === 'investmentGrowth')?.value || 0;
+      const sad = payload.find((p: any) => p.dataKey === 'sadaqahJariyah')?.value || 0;
+      const tot = inv + sad;
+
+      return (
+      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-xs space-y-2 min-w-[200px]">
+        <p className="font-bold text-gray-400 text-[10px] uppercase tracking-wider border-b border-gray-100 pb-2">{label}</p>
+        <div className="flex justify-between items-center gap-4">
+          <span className="flex items-center gap-1.5 text-gray-600 font-medium">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-mizan-dark)]"></span>
+            Investment (12%)
+          </span>
+          <span className="font-bold text-[var(--color-mizan-dark)]">{formatCurrency(inv)}</span>
+        </div>
+        <div className="flex justify-between items-center gap-4">
+          <span className="flex items-center gap-1.5 text-gray-600 font-medium">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-mizan-gold)]"></span>
+            Sadaqah (30%)
+          </span>
+          <span className="font-bold text-[var(--color-mizan-dark)]">{formatCurrency(sad)}</span>
+        </div>
+        <div className="flex justify-between items-center gap-4 border-t border-gray-100 pt-2 mt-1">
+          <span className="font-bold text-gray-800">Total Value</span>
+          <span className="font-bold text-[var(--color-mizan-dark)]">{formatCurrency(tot)}</span>
+        </div>
+      </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <section id="calculator" className="bg-[#F5F5F5] px-6 py-24 border-t border-gray-100 overflow-hidden">
-      <div className="max-w-[88rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="w-12 h-12 bg-white shadow-sm rounded-full flex items-center justify-center mb-6"
-          >
-            <i className="fa-solid fa-calculator text-xl text-mizan-green"></i>
-          </motion.div>
-          
-          <div className="mb-6">
-            <VerticalCutReveal
-              splitBy="words"
-              staggerDuration={0.08}
-              staggerFrom="first"
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 22,
-              }}
-              containerClassName="text-black text-4xl md:text-5xl font-semibold leading-tight max-w-xl tracking-tight"
-            >
-              {"Investment Returns Calculator"}
-            </VerticalCutReveal>
-          </div>
+    <section id="calculator" className="bg-[#FAF9F6] px-6 sm:px-8 md:px-12 py-24 overflow-hidden border-t border-gray-200/50">
+      <div className="max-w-[84rem] mx-auto">
+        <div className="text-center mb-16">
+          <span className="text-[var(--color-mizan-gold)] text-xs font-bold uppercase tracking-widest block mb-4">
+            Wealth & Impact
+          </span>
+          <h2 className="text-[var(--color-mizan-dark)] text-4xl sm:text-5xl md:text-6xl font-serif font-bold leading-tight mb-4">
+            Your Deen & Dunyah Returns
+          </h2>
+          <p className="text-[var(--color-mizan-dark)]/80 text-base sm:text-lg font-medium max-w-2xl mx-auto">
+            Interactive yield breakdown comparing 12% annual investment growth against a 30% cumulative Sadaqah Jariyah impact.
+          </p>
+        </div>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-gray-600 text-lg leading-relaxed mb-8"
-          >
-            See how your wealth can grow over time while continuously funding community initiatives. 
-            A portion of all generated returns is distributed as Sadaqah Jariyah.
-          </motion.p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
+          {/* Left: Controls & Summary */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-8"
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-4 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-8 hover:shadow-md transition-shadow duration-300"
           >
-            <div className="bg-white p-6 rounded-2xl shadow-md">
-              <div className="flex justify-between mb-3">
-                <label className="font-semibold text-gray-700 text-sm uppercase tracking-wider">Initial Investment</label>
-                <span className="font-bold text-mizan-green text-lg">${amount.toLocaleString()}</span>
+            
+            {/* Amount Slider */}
+            <div>
+              <div className="flex justify-between items-end mb-4">
+                <label className="font-bold text-[var(--color-mizan-dark)]/60 text-xs uppercase tracking-wider">
+                  Initial Investment
+                </label>
+                <span className="font-bold text-[var(--color-mizan-dark)] text-2xl">
+                  {formatCurrency(amount)}
+                </span>
               </div>
               <input 
                 type="range" 
-                min="1000" 
-                max="100000" 
-                step="1000"
+                min="10000" 
+                max="500000" 
+                step="10000"
                 value={amount} 
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full accent-mizan-green cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
+                className="w-full accent-[var(--color-mizan-dark)] cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
-                <span>$1,000</span>
-                <span>$50,000</span>
-                <span>$100,000</span>
-              </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-md">
-              <div className="flex justify-between mb-3">
-                <label className="font-semibold text-gray-700 text-sm uppercase tracking-wider">Term (Years)</label>
-                <span className="font-bold text-mizan-green text-lg">{term} Years</span>
+            {/* Time Slider */}
+            <div>
+              <div className="flex justify-between items-end mb-4">
+                <label className="font-bold text-[var(--color-mizan-dark)]/60 text-xs uppercase tracking-wider">
+                  Time Horizon
+                </label>
+                <span className="font-bold text-[var(--color-mizan-dark)] text-2xl">
+                  {horizonYears} Years
+                </span>
               </div>
               <input 
                 type="range" 
                 min="1" 
-                max="30" 
-                value={term} 
-                onChange={(e) => setTerm(Number(e.target.value))}
-                className="w-full accent-mizan-green cursor-pointer h-2 bg-gray-100 rounded-lg appearance-none"
+                max="15" 
+                step="1"
+                value={horizonYears} 
+                onChange={(e) => setHorizonYears(Number(e.target.value))}
+                className="w-full accent-[var(--color-mizan-dark)] cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
-                <span>1 Year</span>
-                <span>15 Years</span>
-                <span>30 Years</span>
-              </div>
             </div>
-          </motion.div>
-        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-mizan-dark rounded-3xl p-10 md:p-12 hover:shadow-2xl hover:scale-[1.01] transition-all duration-500 shadow-md relative overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 p-8 opacity-[0.03] text-9xl text-white pointer-events-none">
-            <i className="fa-solid fa-chart-line"></i>
-          </div>
-          <h3 className="text-sm font-semibold text-white/40 mb-8 uppercase tracking-widest">Projected Impact</h3>
-          
-          <div className="space-y-8 relative z-10">
-            <div>
-              <p className="text-white/60 mb-1 font-medium">Estimated Total Value</p>
-              <motion.p 
-                key={totalReturn}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-4xl md:text-5xl font-medium text-white tracking-tight"
-              >
-                ${Math.round(totalReturn).toLocaleString()}
-              </motion.p>
-            </div>
-            
-            <div className="h-px bg-white/10 w-full"></div>
-            
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <p className="text-white/60 mb-1 font-medium">Your Profit</p>
-                <motion.p 
-                  key={profit}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-2xl font-medium text-white"
-                >
-                  +${Math.round(profit).toLocaleString()}
-                </motion.p>
+            {/* Summary Box */}
+            <div className="pt-8 border-t border-black/5 space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-mizan-dark)]/80">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-mizan-dark)]"></span> Growth (12%)
+                </span>
+                <span className="text-lg font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.investmentGrowth || 0)}</span>
               </div>
-              <div>
-                <p className="text-white/60 mb-1 font-medium">Sadaqah Generated</p>
-                <motion.p 
-                  key={sadaqah}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-2xl font-medium text-[#41c28c]"
-                >
-                  ${Math.round(sadaqah).toLocaleString()}
-                </motion.p>
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-mizan-dark)]/80">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-mizan-gold)]"></span> Sadaqah (30%)
+                </span>
+                <span className="text-lg font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.sadaqahJariyah || 0)}</span>
+              </div>
+              <div className="pt-4 border-t border-black/5 flex items-center justify-between">
+                <span className="text-sm font-bold text-[var(--color-mizan-dark)]">Total Created</span>
+                <span className="text-2xl font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.totalReturn || 0)}</span>
               </div>
             </div>
-          </div>
-          
-          <button className="w-full mt-10 bg-mizan-green text-white text-lg font-semibold py-4 rounded-xl hover:bg-mizan-green-hover transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">
-            Start Investing
-          </button>
-        </motion.div>
+
+          </motion.div>
+
+          {/* Right: Chart */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2  }}
+            className="lg:col-span-8 bg-white p-6 sm:p-10 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-center h-full min-h-[400px] hover:shadow-md transition-shadow duration-300"
+          >
+            <ResponsiveContainer width="100%" height={400}>
+              <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorInv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-mizan-dark)" stopOpacity={0.15}/>
+                    <stop offset="95%" stopColor="var(--color-mizan-dark)" stopOpacity={0.01}/>
+                  </linearGradient>
+                  <linearGradient id="colorSad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-mizan-gold)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="var(--color-mizan-gold)" stopOpacity={0.01}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                <XAxis 
+                  dataKey="yearLabel" 
+                  tickLine={false} 
+                  axisLine={{ stroke: '#e5e7eb' }}
+                  tick={{ fill: '#6b7280', fontSize: 12, fontWeight: 500 }}
+                  dy={10}
+                />
+                <YAxis 
+                  tickFormatter={(value) => `$${value / 1000}k`}
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fill: '#6b7280', fontSize: 12, fontWeight: 500 }}
+                  dx={-10}
+                />
+                <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--color-mizan-gold)', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                <Area 
+                  type="monotone" 
+                  dataKey="sadaqahJariyah" 
+                  name="Sadaqah Jariyah" 
+                  stackId="1" 
+                  stroke="var(--color-mizan-gold)" 
+                  fill="url(#colorSad)" 
+                  strokeWidth={2}
+                  activeDot={{ r: 6, fill: "var(--color-mizan-gold)", stroke: "#fff", strokeWidth: 2 }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="investmentGrowth" 
+                  name="Investment Growth" 
+                  stackId="2" 
+                  stroke="var(--color-mizan-dark)" 
+                  fill="url(#colorInv)" 
+                  strokeWidth={2}
+                  activeDot={{ r: 6, fill: "var(--color-mizan-dark)", stroke: "#fff", strokeWidth: 2 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Logo from './ui/Logo';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 30) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -17,49 +18,92 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const menuItems = [
+    { label: 'Process', href: '#road-map' },
+    { label: 'Yield Calculator', href: '#calculator' },
+    { label: 'Portfolio', href: '#portfolio' },
+    { label: 'FAQ', href: '#faq' }
+  ];
+
   return (
-    <motion.nav 
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/80 backdrop-blur-md border-b border-gray-100/80 shadow-sm py-4' 
-          : 'bg-transparent py-6'
-      }`}
-    >
-      <div className="max-w-[88rem] mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Elegant Logo Container with sleek spring transition and subtle bright shine */}
-        <motion.a 
-          href="#vision"
-          whileHover={{ scale: 1.015 }}
-          whileTap={{ scale: 0.985 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="flex items-center gap-3 cursor-pointer shrink-0 transition-all duration-300 hover:brightness-110"
-        >
-          <Logo height={34} light={false} />
-        </motion.a>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[var(--color-mizan-bg)]/95 backdrop-blur-md py-4 border-b border-black/5 shadow-sm' : 'bg-transparent py-6'} px-4 sm:px-6 md:px-8`}>
+      <nav className="max-w-[84rem] mx-auto flex items-center justify-between">
         
-        {/* Navigation Menu with elegant underlines */}
-        <div className="hidden md:flex items-center gap-8 lg:gap-10">
-          {['Vision', 'Real Estate', 'Calculator', 'Community Fund', 'Road Map'].map((link) => (
+        {/* Logo */}
+        <a href="#vision" className="flex items-center gap-3 cursor-pointer shrink-0 transition-opacity duration-300 hover:opacity-85">
+          <Logo height={28} light={false} />
+        </a>
+        
+        {/* Center Nav Links */}
+        <div className="hidden md:flex items-center gap-8">
+          {menuItems.map((item) => (
             <a 
-              key={link} 
-              href={`#${link.toLowerCase().replace(/\s+/g, '-')}`} 
-              className="relative text-[15px] text-gray-700 hover:text-mizan-green font-medium tracking-wide transition-colors duration-300 group py-1.5"
+              key={item.label} 
+              href={item.href} 
+              className="text-sm font-bold transition-colors uppercase tracking-wider text-[var(--color-mizan-dark)]/90 hover:text-[var(--color-mizan-gold)]"
             >
-              {link}
-              <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-mizan-green transition-all duration-300 origin-center -translate-x-1/2 group-hover:w-full"></span>
+              {item.label}
             </a>
           ))}
         </div>
         
-        {/* High-end premium button */}
-        <button className="bg-mizan-green text-white text-sm sm:text-base font-bold px-6 sm:px-7 py-2.5 sm:py-3 rounded-full hover:bg-mizan-green-hover transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md shadow-mizan-green/10 shrink-0">
-          Join the Fund
-        </button>
-      </div>
-    </motion.nav>
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <button className="hidden sm:inline-flex font-bold text-sm px-4 py-2 hover:text-[var(--color-mizan-gold)] transition-colors uppercase tracking-wider text-[var(--color-mizan-dark)]">
+            Sign In
+          </button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="hidden sm:inline-flex text-sm font-bold px-6 py-3 rounded transition-all duration-300 shadow-md cursor-pointer uppercase tracking-wider bg-[var(--color-mizan-dark)] text-white hover:bg-[var(--color-mizan-light-green)] hover:text-[var(--color-mizan-dark)]"
+          >
+            Invest Now
+          </motion.button>
+
+          {/* Mobile Hamburger menu toggle */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 md:hidden flex items-center justify-center rounded transition-colors focus:outline-none cursor-pointer text-[var(--color-mizan-dark)] hover:bg-black/5"
+            aria-label="Toggle Menu"
+          >
+            <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark text-lg' : 'fa-bars text-lg'}`}></i>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="md:hidden overflow-hidden mt-4 bg-[var(--color-mizan-card-bg)] border-t border-black/5 shadow-xl rounded-b-xl absolute left-0 right-0"
+          >
+            <div className="flex flex-col gap-2 p-4">
+              {menuItems.map((item) => (
+                <a 
+                  key={item.label} 
+                  href={item.href} 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[var(--color-mizan-dark)] hover:text-[var(--color-mizan-gold)] font-bold text-sm py-3 px-4 hover:bg-black/5 transition-colors uppercase tracking-wider"
+                >
+                  {item.label}
+                </a>
+              ))}
+              <div className="border-t border-black/5 my-2"></div>
+              <button className="text-[var(--color-mizan-dark)] font-bold text-sm py-3 px-4 text-left hover:bg-black/5 uppercase tracking-wider">
+                Sign In
+              </button>
+              <button className="bg-[var(--color-mizan-dark)] text-white text-sm font-bold py-3 px-4 rounded hover:bg-[var(--color-mizan-light-green)] hover:text-[var(--color-mizan-dark)] transition-colors mt-2 text-center uppercase tracking-wider">
+                Invest Now
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
 
