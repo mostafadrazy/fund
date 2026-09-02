@@ -40,7 +40,7 @@ export default function Navbar() {
             <a 
               key={item.label} 
               href={item.href} 
-              className="text-sm font-bold transition-colors uppercase tracking-wider text-[var(--color-mizan-dark)]/90 hover:text-[var(--color-mizan-gold)]"
+              className="relative text-sm font-bold transition-colors uppercase tracking-wider text-[var(--color-mizan-dark)]/90 hover:text-[var(--color-mizan-gold)] after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-[var(--color-mizan-gold)] hover:after:w-full after:transition-all after:duration-300"
             >
               {item.label}
             </a>

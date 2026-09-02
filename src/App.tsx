@@ -4,10 +4,10 @@ import HeroSection from './components/HeroSection';
 import RealEstateSection from './components/RealEstateSection';
 import CommunityFundSection from './components/CommunityFundSection';
 import RoadmapSection from './components/RoadmapSection';
-import TestimonialsSection from './components/TestimonialsSection';
 import WhyAndImpactSection from './components/WhyAndImpactSection';
 import ImpactCycleSection from './components/ImpactCycleSection';
 import CalculatorSection from './components/CalculatorSection';
+import HowItWorksSection from './components/HowItWorksSection';
 import AppSection from './components/AppSection';
 import CtaSection from './components/CtaSection';
 import Footer from './components/Footer';
@@ -21,9 +21,9 @@ export default function App() {
         <RealEstateSection />
         <CommunityFundSection />
         <RoadmapSection />
-        <TestimonialsSection />
         <ImpactCycleSection />
         <CalculatorSection />
+        <HowItWorksSection />
         <AppSection />
         <WhyAndImpactSection />
         <CtaSection />

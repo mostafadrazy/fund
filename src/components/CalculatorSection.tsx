@@ -3,43 +3,36 @@ import { motion } from 'motion/react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer, CartesianGrid, YAxis } from 'recharts';
 
 export default function CalculatorSection() {
-  const [amount, setAmount] = useState(50000);
-  const [horizonYears, setHorizonYears] = useState(10);
+  const [amount, setAmount] = useState(100000);
+  const [horizonYears, setHorizonYears] = useState(5);
 
   const calculateGrowth = (principal: number, years: number) => {
-    let current = principal;
     const data = [];
-    let cumulativeSadaqah = 0;
-    
-    // Using 12% target yield, with 30% of that yield going to community impact
-    const grossYield = 0.12; 
-    const communityShare = 0.30;
     
     for (let i = 0; i <= years; i++) {
       if (i === 0) {
         data.push({ 
           year: i, 
           yearLabel: `Year ${i}`,
-          investmentGrowth: current, 
+          investmentGrowth: principal, 
           sadaqahJariyah: 0,
-          totalReturn: current 
+          totalReturn: principal 
         });
         continue;
       }
       
-      const yearlyReturn = current * grossYield;
-      const sadaqahPortion = yearlyReturn * communityShare;
-      const investorPortion = yearlyReturn - sadaqahPortion;
-      
-      cumulativeSadaqah += sadaqahPortion;
-      current += investorPortion; // Reinvesting investor portion
+      // Based on the user's spreadsheet logic:
+      // Investment Growth compounding at 12%
+      const investmentGrowth = principal * Math.pow(1.12, i);
+      // Sadaqah Jariyah represents the difference between a 30% compounding rate and the 12% rate
+      const sadaqahJariyah = principal * (Math.pow(1.30, i) - Math.pow(1.12, i));
       
       data.push({
         year: i,
         yearLabel: `Year ${i}`,
-        investmentGrowth: Math.round(current),
-        sadaqahJariyah: Math.round(cumulativeSadaqah),
-        totalReturn: Math.round(current + cumulativeSadaqah)
+        investmentGrowth: investmentGrowth,
+        sadaqahJariyah: sadaqahJariyah,
+        totalReturn: investmentGrowth + sadaqahJariyah
       });
     }
     return data;
@@ -48,8 +41,16 @@ export default function CalculatorSection() {
   const chartData = calculateGrowth(amount, horizonYears);
   const yearData = chartData[chartData.length - 1];
 
-  const formatCurrency = (val: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+  const formatCurrency = (val: number) => {
+    // If it's a whole number (or very close to one), don't show decimals
+    const isWhole = Math.abs(Math.round(val) - val) < 0.001;
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD', 
+      minimumFractionDigits: isWhole ? 0 : 2,
+      maximumFractionDigits: isWhole ? 0 : 2 
+    }).format(val);
+  };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -99,7 +100,7 @@ export default function CalculatorSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left: Controls & Summary */}
           <motion.div 
@@ -107,68 +108,69 @@ export default function CalculatorSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-4 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-8 hover:shadow-md transition-shadow duration-300"
+            className="lg:col-span-4 bg-[var(--color-mizan-dark)] p-8 sm:p-10 rounded-[2rem] border border-[var(--color-mizan-gold)]/20 shadow-2xl flex flex-col justify-between"
           >
-            
-            {/* Amount Slider */}
-            <div>
-              <div className="flex justify-between items-end mb-4">
-                <label className="font-bold text-[var(--color-mizan-dark)]/60 text-xs uppercase tracking-wider">
-                  Initial Investment
-                </label>
-                <span className="font-bold text-[var(--color-mizan-dark)] text-2xl">
-                  {formatCurrency(amount)}
-                </span>
+            <div className="space-y-8">
+              {/* Amount Slider */}
+              <div>
+                <div className="flex justify-between items-end mb-4">
+                  <label className="font-bold text-white/60 text-xs uppercase tracking-wider">
+                    Initial Investment
+                  </label>
+                  <span className="font-bold text-white text-2xl">
+                    {formatCurrency(amount)}
+                  </span>
+                </div>
+                <input 
+                  type="range" 
+                  min="10000" 
+                  max="500000" 
+                  step="10000"
+                  value={amount} 
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  className="w-full accent-[var(--color-mizan-gold)] cursor-pointer h-1.5 bg-white/20 rounded-lg appearance-none"
+                />
               </div>
-              <input 
-                type="range" 
-                min="10000" 
-                max="500000" 
-                step="10000"
-                value={amount} 
-                onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full accent-[var(--color-mizan-dark)] cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
-              />
-            </div>
 
-            {/* Time Slider */}
-            <div>
-              <div className="flex justify-between items-end mb-4">
-                <label className="font-bold text-[var(--color-mizan-dark)]/60 text-xs uppercase tracking-wider">
-                  Time Horizon
-                </label>
-                <span className="font-bold text-[var(--color-mizan-dark)] text-2xl">
-                  {horizonYears} Years
-                </span>
+              {/* Time Slider */}
+              <div>
+                <div className="flex justify-between items-end mb-4">
+                  <label className="font-bold text-white/60 text-xs uppercase tracking-wider">
+                    Time Horizon
+                  </label>
+                  <span className="font-bold text-white text-2xl">
+                    {horizonYears} Years
+                  </span>
+                </div>
+                <input 
+                  type="range" 
+                  min="1" 
+                  max="15" 
+                  step="1"
+                  value={horizonYears} 
+                  onChange={(e) => setHorizonYears(Number(e.target.value))}
+                  className="w-full accent-[var(--color-mizan-gold)] cursor-pointer h-1.5 bg-white/20 rounded-lg appearance-none"
+                />
               </div>
-              <input 
-                type="range" 
-                min="1" 
-                max="15" 
-                step="1"
-                value={horizonYears} 
-                onChange={(e) => setHorizonYears(Number(e.target.value))}
-                className="w-full accent-[var(--color-mizan-dark)] cursor-pointer h-2 bg-gray-200 rounded-lg appearance-none"
-              />
             </div>
 
             {/* Summary Box */}
-            <div className="pt-8 border-t border-black/5 space-y-6">
+            <div className="pt-8 mt-8 border-t border-white/10 space-y-6">
               <div className="flex items-center justify-between">
-                <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-mizan-dark)]/80">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-mizan-dark)]"></span> Growth (12%)
+                <span className="flex items-center gap-3 text-sm font-bold text-white/80">
+                  <span className="w-3 h-3 rounded-full bg-white/20 border border-white/40"></span> Growth (12%)
                 </span>
-                <span className="text-lg font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.investmentGrowth || 0)}</span>
+                <span className="text-lg font-bold text-white">{formatCurrency(yearData?.investmentGrowth || 0)}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-mizan-dark)]/80">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-mizan-gold)]"></span> Sadaqah (30%)
+                <span className="flex items-center gap-3 text-sm font-bold text-white/80">
+                  <span className="w-3 h-3 rounded-full bg-[var(--color-mizan-gold)] shadow-[0_0_10px_rgba(182,143,64,0.5)]"></span> Sadaqah (30%)
                 </span>
-                <span className="text-lg font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.sadaqahJariyah || 0)}</span>
+                <span className="text-lg font-bold text-white">{formatCurrency(yearData?.sadaqahJariyah || 0)}</span>
               </div>
-              <div className="pt-4 border-t border-black/5 flex items-center justify-between">
-                <span className="text-sm font-bold text-[var(--color-mizan-dark)]">Total Created</span>
-                <span className="text-2xl font-bold text-[var(--color-mizan-dark)]">{formatCurrency(yearData?.totalReturn || 0)}</span>
+              <div className="pt-6 mt-2 border-t border-white/10 flex items-center justify-between">
+                <span className="text-sm font-bold text-white/60 uppercase tracking-wider">Total Created</span>
+                <span className="text-3xl font-bold text-[var(--color-mizan-gold)]">{formatCurrency(yearData?.totalReturn || 0)}</span>
               </div>
             </div>
 
@@ -180,7 +182,7 @@ export default function CalculatorSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2  }}
-            className="lg:col-span-8 bg-white p-6 sm:p-10 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-center h-full min-h-[400px] hover:shadow-md transition-shadow duration-300"
+            className="lg:col-span-8 bg-white p-6 sm:p-10 lg:p-12 rounded-[2rem] border border-gray-200 shadow-xl flex flex-col justify-center h-full min-h-[450px]"
           >
             <ResponsiveContainer width="100%" height={400}>
               <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>

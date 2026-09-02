@@ -1,22 +1,29 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function HeroSection() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
   return (
-    <section id="hero" className="relative w-full pt-40 pb-48 md:pt-48 md:pb-64 overflow-hidden bg-[var(--color-mizan-bg)]">
+    <section ref={ref} id="hero" className="relative w-full pt-40 pb-48 md:pt-48 md:pb-64 overflow-hidden bg-[var(--color-mizan-bg)]">
       {/* Background Image on Right */}
-      <div className="absolute top-0 right-0 w-full md:w-[65%] h-full z-0 overflow-hidden">
+      <motion.div style={{ y }} className="absolute top-0 right-0 w-full md:w-[65%] h-[120%] -top-[10%] z-0 overflow-hidden">
         <motion.img 
           initial={{ scale: 1 }}
           animate={{ scale: 1.05 }}
           transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          src="https://res.cloudinary.com/dmnqlruhl/image/upload/v1785697027/Extract_background_image_high_qu__202608021956_urgqox.jpg" 
-          alt="Islamic Architecture" 
+          src="https://res.cloudinary.com/dmnqlruhl/image/upload/v1788392384/ChatGPT_Image_Sep_3_2026_12_39_38_AM_pmf0ub.png" 
+          alt="Hero Background" 
           className="w-full h-full object-cover object-right"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-mizan-bg)] via-[var(--color-mizan-bg)]/70 to-transparent"></div>
         {/* Subtle white/beige overlay from bottom to blend if needed, but side gradient is main */}
-      </div>
+      </motion.div>
 
       {/* Solid background on the left for text readability */}
       <div className="absolute top-0 left-0 w-full md:w-[45%] h-full bg-[var(--color-mizan-bg)] z-0 hidden md:block"></div>
@@ -48,18 +55,22 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2  }}
             className="flex flex-col sm:flex-row items-center gap-4"
           >
-            <a 
+            <motion.a 
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               href="#calculator"
-              className="w-full sm:w-auto bg-[var(--color-mizan-dark)] text-white text-sm font-bold tracking-wide px-8 py-4 rounded hover:bg-[#1a251c] hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-center"
+              className="w-full sm:w-auto bg-[var(--color-mizan-dark)] text-white text-sm font-bold tracking-wide px-8 py-4 rounded hover:bg-[#1a251c] hover:shadow-xl transition-colors duration-300 text-center"
             >
               Invest With Purpose
-            </a>
-            <a 
+            </motion.a>
+            <motion.a 
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
               href="#road-map"
-              className="w-full sm:w-auto bg-transparent border border-gray-400 text-gray-700 text-sm font-bold tracking-wide px-6 py-4 rounded hover:bg-white hover:border-transparent hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-center flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-transparent border border-gray-400 text-gray-700 text-sm font-bold tracking-wide px-6 py-4 rounded hover:bg-white hover:border-transparent hover:shadow-md transition-colors duration-300 text-center flex items-center justify-center gap-2"
             >
               <i className="fa-regular fa-circle-play text-gray-500"></i> Watch Our Approach
-            </a>
+            </motion.a>
           </motion.div>
 
           <motion.div

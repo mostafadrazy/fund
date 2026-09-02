@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function ImpactCycleSection() {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
 
   const impactSteps = [
     { 
@@ -43,109 +43,148 @@ export default function ImpactCycleSection() {
     },
   ];
 
+  // Auto-slide every 4 seconds. Adding activeStep to deps resets the timer on manual click.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveStep((prev) => prev + 1);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [activeStep]);
+
+  // We want to render 7 cards (-3 to +3) relative to the active step for infinite looping
+  const visibleIndices = [];
+  for (let i = -3; i <= 3; i++) {
+    visibleIndices.push(activeStep + i);
+  }
+
   return (
-    <section className="bg-[var(--color-mizan-dark)] relative">
-      
-      {/* Mobile/Tablet View (Standard Stack) */}
-      <div className="lg:hidden px-6 py-24 max-w-2xl mx-auto">
+    <section className="bg-[var(--color-mizan-dark)] py-24 relative overflow-hidden">
+      <div className="max-w-[84rem] mx-auto px-6">
+        
         <div className="text-center mb-16">
-          <span className="text-[var(--color-mizan-gold)] text-xs font-bold tracking-widest uppercase mb-3 block">
+          <motion.span 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[var(--color-mizan-gold)] text-xs font-bold tracking-widest uppercase mb-4 block"
+          >
             The Virtuous Loop
-          </span>
-          <h2 className="text-white text-4xl sm:text-5xl font-serif font-bold leading-tight mb-4">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-white text-4xl sm:text-5xl md:text-6xl font-serif font-bold leading-tight mb-6"
+          >
             Our Continuous Impact Cycle
-          </h2>
-          <p className="text-white/70 text-sm font-medium">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="text-white/70 text-sm md:text-base leading-relaxed font-medium max-w-2xl mx-auto"
+          >
             See how our investments generate a self-sustaining cycle of wealth, growth, and community empowerment.
-          </p>
+          </motion.p>
         </div>
-        
-        <div className="space-y-12">
-          {impactSteps.map((step, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="bg-white/5 border border-white/10 rounded-3xl p-6 overflow-hidden relative group"
-            >
-              <div className="w-full h-48 rounded-xl overflow-hidden mb-6 relative">
-                <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/20"></div>
-              </div>
-              <div className="w-12 h-12 rounded-full bg-[var(--color-mizan-gold)] flex items-center justify-center text-white mb-4 shadow-lg">
-                <i className={`fa-solid ${step.icon} text-lg`}></i>
-              </div>
-              <h3 className="text-white text-2xl font-serif font-bold mb-2">
-                {step.title}
-              </h3>
-              <p className="text-white/70 text-sm leading-relaxed">
-                {step.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
 
-      {/* Desktop View (Sticky Scroll) */}
-      <div className="hidden lg:flex w-full relative">
-        
-        {/* Left Side (Sticky Image Panel) */}
-        <div className="w-1/2 h-screen sticky top-0 left-0 overflow-hidden bg-black flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeStep}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full"
-            >
-              <img 
-                src={impactSteps[activeStep].image} 
-                alt={impactSteps[activeStep].title}
-                className="w-full h-full object-cover opacity-80"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-mizan-dark)]/90 via-[var(--color-mizan-dark)]/40 to-transparent"></div>
-            </motion.div>
+        {/* Slider Container */}
+        <div 
+          className="relative w-full py-12 flex justify-center items-center"
+          style={{
+            '--card-w': 'min(85vw, 400px)',
+            '--gap': '1.5rem',
+          } as any}
+        >
+          {/* Placeholder to give the absolute container proper height */}
+          <div style={{ width: 'var(--card-w)', aspectRatio: '3/4' }} className="invisible pointer-events-none"></div>
+
+          <AnimatePresence>
+            {visibleIndices.map(absoluteIndex => {
+              let realIndex = absoluteIndex % impactSteps.length;
+              if (realIndex < 0) realIndex += impactSteps.length;
+              const item = impactSteps[realIndex];
+              const relativePosition = absoluteIndex - activeStep;
+              const isActive = relativePosition === 0;
+
+              const currentX = `calc(${relativePosition} * (var(--card-w) + var(--gap)))`;
+
+              return (
+                <motion.div 
+                  key={absoluteIndex}
+                  onClick={() => setActiveStep(absoluteIndex)}
+                  initial={{ 
+                    opacity: 0, 
+                    x: currentX,
+                    scale: 0.8 
+                  }}
+                  animate={{ 
+                    x: currentX,
+                    scale: isActive ? 1.05 : 0.9,
+                    opacity: isActive ? 1 : Math.max(0, 0.5 - Math.abs(relativePosition) * 0.15),
+                    zIndex: 10 - Math.abs(relativePosition)
+                  }}
+                  exit={{ 
+                    opacity: 0,
+                    scale: 0.8,
+                    x: currentX
+                  }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute rounded-3xl overflow-hidden cursor-pointer shadow-xl group"
+                  style={{ width: 'var(--card-w)', aspectRatio: '3/4' }}
+                >
+                  {/* Background Image */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <motion.img 
+                      src={item.image} 
+                      alt={item.title}
+                      animate={{ scale: isActive ? 1.05 : 1 }}
+                      transition={{ duration: 4, ease: "easeOut" }}
+                      className="w-full h-full object-cover origin-center"
+                    />
+                  </div>
+                  
+                  {/* Gradient Overlays */}
+                  <div className={`absolute inset-0 transition-opacity duration-700 ${isActive ? 'bg-gradient-to-t from-[var(--color-mizan-dark)]/90 via-[var(--color-mizan-dark)]/50 to-transparent' : 'bg-black/60 group-hover:bg-black/40'}`}></div>
+
+                  {/* Content */}
+                  <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-[var(--color-mizan-dark)] mb-6 shadow-lg transition-colors duration-500 ${isActive ? 'bg-[var(--color-mizan-gold)]' : 'bg-white/80 backdrop-blur-sm text-gray-800'}`}>
+                      <i className={`fa-solid ${item.icon} text-lg`}></i>
+                    </div>
+                    
+                    <motion.h3 
+                      layout
+                      className="text-white text-2xl sm:text-3xl font-serif font-bold mb-4"
+                    >
+                      {item.title}
+                    </motion.h3>
+                    
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-white/80 text-sm sm:text-base leading-relaxed mb-6">
+                            {item.desc}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
-          
-          <div className="relative z-10 p-16 w-full max-w-xl text-left">
-            <span className="text-[var(--color-mizan-gold)] text-xs font-bold tracking-widest uppercase mb-4 block drop-shadow-md">
-              The Virtuous Loop
-            </span>
-            <h2 className="text-white text-5xl xl:text-6xl font-serif font-bold leading-tight drop-shadow-lg">
-              Our Continuous Impact Cycle
-            </h2>
-          </div>
         </div>
 
-        {/* Right Side (Scrollable Content) */}
-        <div className="w-1/2 relative bg-[var(--color-mizan-dark)] py-[30vh]">
-          <div className="max-w-xl mx-auto px-12">
-            {impactSteps.map((step, idx) => (
-              <motion.div 
-                key={idx}
-                onViewportEnter={() => setActiveStep(idx)}
-                viewport={{ amount: 0.6, margin: "-20% 0px -40% 0px" }}
-                className={`py-32 transition-all duration-700 ease-in-out ${activeStep === idx ? 'opacity-100 scale-100' : 'opacity-20 scale-95 blur-[2px]'}`}
-              >
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white mb-8 shadow-2xl transition-colors duration-500 ${activeStep === idx ? 'bg-[var(--color-mizan-gold)]' : 'bg-white/10'}`}>
-                  <i className={`fa-solid ${step.icon} text-2xl`}></i>
-                </div>
-                
-                <h3 className="text-white text-4xl font-serif font-bold mb-4">
-                  {step.title}
-                </h3>
-                
-                <p className="text-white/80 text-lg leading-relaxed">
-                  {step.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        
       </div>
     </section>
   );
